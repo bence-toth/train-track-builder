@@ -26,23 +26,27 @@ const Level = ({ puzzle }: LevelProps) => {
       <h2>Available tiles</h2>
       <div className="available-tiles">
         {levelTiles.available.map((tile, tileIndex) => (
-          <TileButton
-            key={tileIndex}
-            tile={tile}
-            tileIndex={tileIndex}
-            onClick={handleAvailableTileClick}
-          />
+          <div className="tile-cell">
+            <TileButton
+              key={tileIndex}
+              tile={tile}
+              tileIndex={tileIndex}
+              onClick={handleAvailableTileClick}
+            />
+          </div>
         ))}
       </div>
       <h2>Selected tiles</h2>
       <div className="selected-tiles">
         {levelTiles.selected.map((tile, tileIndex) => (
-          <TileButton
-            key={tileIndex}
-            tile={tile}
-            tileIndex={tileIndex}
-            onClick={handleSelectedTileClick}
-          />
+          <div className="tile-cell">
+            <TileButton
+              key={tileIndex}
+              tile={tile}
+              tileIndex={tileIndex}
+              onClick={handleSelectedTileClick}
+            />
+          </div>
         ))}
       </div>
       <h2>Board</h2>

@@ -6,18 +6,12 @@
   justify-content: space-between;
 }
 
-.available-tile-cell,
-.selected-tile-cell {
+.available-tiles .tile-cell,
+.selected-tiles .tile-cell {
   width: max-content;
   flex: 1;
   border: 1px solid green;
   display: flex;
-}
-
-.available-tile-cell > button,
-.selected-tile-cell > button {
-  display: block;
-  width: 100%;
 }
 
 .board {

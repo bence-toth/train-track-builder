@@ -16,7 +16,7 @@ const useLevelTiles = ({ originalTiles }: UseLevelTilesParams) => {
   });
 
   const handleAvailableTileClick = useCallback(
-    (tile: Tile, tileIndex: number) => {
+    ({ tile, tileIndex }: { tile: Tile; tileIndex: number }) => {
       dispatchLevelTilesAction({
         type: levelTilesActionTypes.select,
         tile,
@@ -27,7 +27,7 @@ const useLevelTiles = ({ originalTiles }: UseLevelTilesParams) => {
   );
 
   const handleSelectedTileClick = useCallback(
-    (tile: Tile, tileIndex: number) => {
+    ({ tile, tileIndex }: { tile: Tile; tileIndex: number }) => {
       dispatchLevelTilesAction({
         type: levelTilesActionTypes.deselect,
         tile,
