@@ -6,6 +6,7 @@ import "./Level.css";
 
 const levelTileActionTypes = {
   select: "select",
+  deselect: "deselect",
 } as const;
 
 interface LevelTileActionSelect {
@@ -14,12 +15,32 @@ interface LevelTileActionSelect {
   tileIndex: number;
 }
 
-type LevelTileAction = LevelTileActionSelect;
+interface LevelTileActionDeselect {
+  type: typeof levelTileActionTypes.deselect;
+  tile: Tile;
+  tileIndex: number;
+}
+
+type LevelTileAction = LevelTileActionSelect | LevelTileActionDeselect;
 
 interface LevelTilesReducerState {
   available: Tile[];
   selected: Tile[];
 }
+
+const shiftTiles = (tilesToShift: Tile[]) => {
+  const comparator = (a: Tile, b: Tile) => {
+    if (a === tiles.blank && b !== tiles.blank) {
+      return 1;
+    }
+    if (a !== tiles.blank && b === tiles.blank) {
+      return -1;
+    }
+    return 0;
+  };
+
+  return tilesToShift.sort(comparator);
+};
 
 const levelTilesReducer = (
   state: LevelTilesReducerState,
@@ -39,6 +60,24 @@ const levelTilesReducer = (
           selected: selected
             .slice(0, indexOfFirstBlank)
             .concat(tile, selected.slice(indexOfFirstBlank + 1)),
+        };
+      }
+      return state;
+    }
+    case levelTileActionTypes.deselect: {
+      const { selected, available } = state;
+      const { tile, tileIndex } = action;
+      const indexOfFirstBlank = available.indexOf(tiles.blank);
+      if (indexOfFirstBlank !== -1) {
+        return {
+          available: available
+            .slice(0, indexOfFirstBlank)
+            .concat(tile, available.slice(indexOfFirstBlank + 1)),
+          selected: shiftTiles(
+            selected
+              .slice(0, tileIndex)
+              .concat(tiles.blank, selected.slice(tileIndex + 1))
+          ),
         };
       }
       return state;
@@ -64,13 +103,27 @@ const Level = ({ puzzle }: LevelProps) => {
     selected: new Array(puzzle.tiles.length).fill(tiles.blank),
   });
 
-  const handleTileClick = useCallback((tile: Tile, tileIndex: number) => {
-    dispatchLevelTilesAction({
-      type: levelTileActionTypes.select,
-      tile,
-      tileIndex,
-    });
-  }, []);
+  const handleAvailableTileClick = useCallback(
+    (tile: Tile, tileIndex: number) => {
+      dispatchLevelTilesAction({
+        type: levelTileActionTypes.select,
+        tile,
+        tileIndex,
+      });
+    },
+    []
+  );
+
+  const handleSelectedTileClick = useCallback(
+    (tile: Tile, tileIndex: number) => {
+      dispatchLevelTilesAction({
+        type: levelTileActionTypes.deselect,
+        tile,
+        tileIndex,
+      });
+    },
+    []
+  );
 
   return (
     <div>
@@ -81,7 +134,7 @@ const Level = ({ puzzle }: LevelProps) => {
             <button
               onClick={() => {
                 if (tile !== tiles.blank) {
-                  handleTileClick(tile, tileIndex);
+                  handleAvailableTileClick(tile, tileIndex);
                 }
               }}
             >
@@ -94,7 +147,15 @@ const Level = ({ puzzle }: LevelProps) => {
       <div className="selected-tiles">
         {levelTiles.selected.map((tile, tileIndex) => (
           <div key={tileIndex} className="selected-tile-cell">
-            <button>{tile}</button>
+            <button
+              onClick={() => {
+                if (tile !== tiles.blank) {
+                  handleSelectedTileClick(tile, tileIndex);
+                }
+              }}
+            >
+              {tile}
+            </button>
           </div>
         ))}
       </div>
