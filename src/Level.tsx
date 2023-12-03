@@ -18,7 +18,7 @@ const Level = ({ puzzle }: LevelProps) => {
     handleAvailableTileClick,
     handleSelectedTileClick,
     handleResetButtonClick,
-  } = useLevelTiles({ puzzleTiles: puzzle.tiles });
+  } = useLevelTiles({ originalTiles: puzzle.tiles });
 
   return (
     <div>
