@@ -1,5 +1,6 @@
-import { tiles, type BoardTile, type Tile } from "./Tiles";
+import { type BoardTile, type Tile } from "./Tiles";
 import useLevelTiles from "./useLevelTiles";
+import TileButton from "./TileButton";
 
 import "./Level.css";
 
@@ -22,36 +23,26 @@ const Level = ({ puzzle }: LevelProps) => {
 
   return (
     <div>
-      <h2>Tiles</h2>
-      <div className="tiles">
+      <h2>Available tiles</h2>
+      <div className="available-tiles">
         {levelTiles.available.map((tile, tileIndex) => (
-          <div key={tileIndex} className="tile-cell">
-            <button
-              onClick={() => {
-                if (tile !== tiles.blank) {
-                  handleAvailableTileClick(tile, tileIndex);
-                }
-              }}
-            >
-              {tile}
-            </button>
-          </div>
+          <TileButton
+            key={tileIndex}
+            tile={tile}
+            tileIndex={tileIndex}
+            onClick={handleAvailableTileClick}
+          />
         ))}
       </div>
       <h2>Selected tiles</h2>
       <div className="selected-tiles">
         {levelTiles.selected.map((tile, tileIndex) => (
-          <div key={tileIndex} className="selected-tile-cell">
-            <button
-              onClick={() => {
-                if (tile !== tiles.blank) {
-                  handleSelectedTileClick(tile, tileIndex);
-                }
-              }}
-            >
-              {tile}
-            </button>
-          </div>
+          <TileButton
+            key={tileIndex}
+            tile={tile}
+            tileIndex={tileIndex}
+            onClick={handleSelectedTileClick}
+          />
         ))}
       </div>
       <h2>Board</h2>
