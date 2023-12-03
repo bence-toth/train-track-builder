@@ -7,6 +7,7 @@ import "./Level.css";
 const levelTileActionTypes = {
   select: "select",
   deselect: "deselect",
+  reset: "reset",
 } as const;
 
 interface LevelTileActionSelect {
@@ -21,7 +22,15 @@ interface LevelTileActionDeselect {
   tileIndex: number;
 }
 
-type LevelTileAction = LevelTileActionSelect | LevelTileActionDeselect;
+interface LevelTileActionReset {
+  type: typeof levelTileActionTypes.reset;
+  tiles: Tile[];
+}
+
+type LevelTileAction =
+  | LevelTileActionSelect
+  | LevelTileActionDeselect
+  | LevelTileActionReset;
 
 interface LevelTilesReducerState {
   available: Tile[];
@@ -82,6 +91,12 @@ const levelTilesReducer = (
       }
       return state;
     }
+    case levelTileActionTypes.reset: {
+      return {
+        available: action.tiles,
+        selected: new Array(action.tiles.length).fill(tiles.blank),
+      };
+    }
     default: {
       return state;
     }
@@ -124,6 +139,13 @@ const Level = ({ puzzle }: LevelProps) => {
     },
     []
   );
+
+  const handleResetButtonClick = useCallback(() => {
+    dispatchLevelTilesAction({
+      type: levelTileActionTypes.reset,
+      tiles: puzzle.tiles,
+    });
+  }, [puzzle.tiles]);
 
   return (
     <div>
@@ -174,7 +196,7 @@ const Level = ({ puzzle }: LevelProps) => {
       <h2>Controls</h2>
       <div className="controls">
         <div className="control">
-          <button>Reset</button>
+          <button onClick={handleResetButtonClick}>Reset</button>
         </div>
         <div className="control">
           <button>Start</button>
