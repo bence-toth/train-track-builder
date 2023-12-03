@@ -2,7 +2,10 @@ export const BoardTiles = {
   Blank: null,
   StartEast: "start-east",
   EastWest: "track-east-west",
-  EastSouth: "track-east-south",
+  NorthSouth: "track-north-south",
+  NorthEast: "track-north-east",
+  SouthEast: "track-south-east",
+  SouthWest: "track-south-west",
   NorthWest: "track-north-west",
   FinishWest: "finish-west",
 } as const;

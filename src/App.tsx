@@ -28,7 +28,13 @@ const App = () => (
           BoardTiles.FinishWest,
         ],
       ],
-      tiles: [Tiles.EastWest, Tiles.EastSouth, Tiles.NorthWest],
+      tiles: [
+        Tiles.EastWest,
+        Tiles.EastWest,
+        Tiles.SouthWest,
+        Tiles.NorthSouth,
+        Tiles.NorthEast,
+      ],
     }}
   />
 );
