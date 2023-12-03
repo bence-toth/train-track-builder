@@ -1,39 +1,38 @@
 import Level from "./Level";
-
-import { BoardTiles, Tiles } from "./Tiles";
+import { boardTiles, tiles } from "./Tiles";
 
 const App = () => (
   <Level
     puzzle={{
       board: [
         [
-          BoardTiles.StartEast,
-          BoardTiles.Blank,
-          BoardTiles.Blank,
-          BoardTiles.Blank,
-          BoardTiles.Blank,
+          boardTiles.startEast,
+          boardTiles.blank,
+          boardTiles.blank,
+          boardTiles.blank,
+          boardTiles.blank,
         ],
         [
-          BoardTiles.Blank,
-          BoardTiles.Blank,
-          BoardTiles.Blank,
-          BoardTiles.Blank,
-          BoardTiles.Blank,
+          boardTiles.blank,
+          boardTiles.blank,
+          boardTiles.blank,
+          boardTiles.blank,
+          boardTiles.blank,
         ],
         [
-          BoardTiles.Blank,
-          BoardTiles.Blank,
-          BoardTiles.Blank,
-          BoardTiles.Blank,
-          BoardTiles.FinishWest,
+          boardTiles.blank,
+          boardTiles.blank,
+          boardTiles.blank,
+          boardTiles.blank,
+          boardTiles.finishWest,
         ],
       ],
       tiles: [
-        Tiles.EastWest,
-        Tiles.EastWest,
-        Tiles.SouthWest,
-        Tiles.NorthSouth,
-        Tiles.NorthEast,
+        tiles.eastWest,
+        tiles.eastWest,
+        tiles.southWest,
+        tiles.northSouth,
+        tiles.northEast,
       ],
     }}
   />

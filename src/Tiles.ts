@@ -1,20 +1,20 @@
-export const BoardTiles = {
-  Blank: null,
-  StartEast: "start-east",
-  EastWest: "track-east-west",
-  NorthSouth: "track-north-south",
-  NorthEast: "track-north-east",
-  SouthEast: "track-south-east",
-  SouthWest: "track-south-west",
-  NorthWest: "track-north-west",
-  FinishWest: "finish-west",
+export const boardTiles = {
+  blank: null,
+  startEast: "start-east",
+  eastWest: "track-east-west",
+  northSouth: "track-north-south",
+  northEast: "track-north-east",
+  southEast: "track-south-east",
+  southWest: "track-south-west",
+  northWest: "track-north-west",
+  finishWest: "finish-west",
 } as const;
 
-export type BoardTile = (typeof BoardTiles)[keyof typeof BoardTiles];
+export type BoardTile = (typeof boardTiles)[keyof typeof boardTiles];
 
-export const Tiles = {
-  ...BoardTiles,
-  ParenthesisOpen: "parenthesis-open",
+export const tiles = {
+  ...boardTiles,
+  parenthesisOpen: "parenthesis-open",
 };
 
-export type Tile = (typeof Tiles)[keyof typeof Tiles];
+export type Tile = (typeof tiles)[keyof typeof tiles];
