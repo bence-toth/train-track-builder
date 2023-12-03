@@ -1,0 +1,57 @@
+.tiles,
+.selected-tiles {
+  height: 5rem;
+  border: 1px solid blue;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tile-cell,
+.selected-tile-cell {
+  width: max-content;
+  flex: 1;
+  border: 1px solid green;
+  display: flex;
+}
+
+.tile-cell > button,
+.selected-tile-cell > button {
+  display: block;
+  width: 100%;
+}
+
+.board {
+  border: 1px solid red;
+}
+
+.board-row {
+  height: 5rem;
+  border: 1px solid blue;
+  display: flex;
+  justify-content: space-between;
+}
+
+.board-cell {
+  width: max-content;
+  flex: 1;
+  border: 1px solid green;
+}
+
+.controls {
+  height: 5rem;
+  border: 1px solid blue;
+  display: flex;
+  justify-content: space-between;
+}
+
+.control {
+  width: max-content;
+  flex: 1;
+  border: 1px solid green;
+  display: flex;
+}
+
+.control > button {
+  display: block;
+  width: 100%;
+}
