@@ -1,4 +1,4 @@
-import { tiles, type Tile } from "./Tiles";
+import { tiles, type Tile } from "./tiles";
 
 const shiftTilesComparator = (left: Tile, right: Tile) => {
   if (left === tiles.blank && right !== tiles.blank) {

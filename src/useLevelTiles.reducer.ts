@@ -1,4 +1,4 @@
-import { tiles, type Tile } from "./Tiles";
+import { tiles, type Tile } from "./tiles";
 import { shiftTiles } from "./useLevelTiles.reducer.utility";
 
 interface LevelTilesReducerState {

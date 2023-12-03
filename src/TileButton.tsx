@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { tiles, type Tile } from "./Tiles";
+import { tiles, type Tile } from "./tiles";
 
 interface TileButtonProps {
   tile: Tile;

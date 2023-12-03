@@ -1,6 +1,6 @@
 import { useCallback, useReducer } from "react";
 
-import { tiles, type Tile } from "./Tiles";
+import { tiles, type Tile } from "./tiles";
 import levelTilesReducer, {
   levelTilesActionTypes,
 } from "./useLevelTiles.reducer";

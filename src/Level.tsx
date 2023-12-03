@@ -1,4 +1,4 @@
-import { type BoardTile, type Tile } from "./Tiles";
+import type { BoardTile, Tile } from "./tiles";
 import useLevelTiles from "./useLevelTiles";
 import TileButton from "./TileButton";
 
