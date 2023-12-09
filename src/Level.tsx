@@ -1,4 +1,4 @@
-import type { BoardTile, Tile } from "./tiles";
+import { type BoardTile, type Tile, getTileImage } from "./tiles";
 import useLevelTiles from "./useLevelTiles";
 import TileButton from "./TileButton";
 
@@ -55,7 +55,7 @@ const Level = ({ puzzle }: LevelProps) => {
           <div key={boardRowIndex} className="board-row">
             {boardRow.map((boardRowTile, boardRowTileIndex) => (
               <div key={boardRowTileIndex} className="board-cell">
-                {boardRowTile}
+                <img src={getTileImage(boardRowTile)} alt="" />
               </div>
             ))}
           </div>
