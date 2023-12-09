@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { tiles, type Tile } from "./tiles";
+import { tiles, type Tile, getTileImage } from "./tiles";
 
 import "./TileButton.css";
 
@@ -19,7 +19,7 @@ const TileButton = ({ tile, tileIndex, onClick }: TileButtonProps) => {
 
   return (
     <button className="tile-button" onClick={handleTileClick}>
-      {tile}
+      <img src={getTileImage(tile)} alt="" />
     </button>
   );
 };
