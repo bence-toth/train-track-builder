@@ -24,6 +24,8 @@ import TileNumberEight from "./tile-images/number-eight.png";
 import TileNumberNine from "./tile-images/number-nine.png";
 import TileParenthesisOpen from "./tile-images/parenthesis-open.png";
 import TileParenthesisClose from "./tile-images/parenthesis-close.png";
+import TileObstacle from "./tile-images/obstacle.png";
+import TileTreasure from "./tile-images/treasure.png";
 
 const boardTiles = {
   // Blank
@@ -46,6 +48,10 @@ const boardTiles = {
   finishEast: "finish-east",
   finishSouth: "finish-south",
   finishWest: "finish-west",
+  // Obstacles
+  obstacle: "obstacle",
+  // Treasures
+  treasure: "treasure",
 } as const;
 
 export type BoardTile = (typeof boardTiles)[keyof typeof boardTiles];
@@ -109,6 +115,10 @@ const tileImages = {
   // Parentheses
   [tiles.parenthesisOpen]: TileParenthesisOpen,
   [tiles.parenthesisClose]: TileParenthesisClose,
+  // Obstacles
+  [tiles.obstacle]: TileTreasure,
+  // Treasures
+  [tiles.treasure]: TileObstacle,
 } as const;
 
 export type TileImage = (typeof tileImages)[keyof typeof tileImages];
