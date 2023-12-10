@@ -13,6 +13,17 @@ import TileFinishNorth from "./tile-images/finish-north.png";
 import TileFinishEast from "./tile-images/finish-east.png";
 import TileFinishSouth from "./tile-images/finish-south.png";
 import TileFinishWest from "./tile-images/finish-west.png";
+import TileNumberOne from "./tile-images/number-one.png";
+import TileNumberTwo from "./tile-images/number-two.png";
+import TileNumberThree from "./tile-images/number-three.png";
+import TileNumberFour from "./tile-images/number-four.png";
+import TileNumberFive from "./tile-images/number-five.png";
+import TileNumberSix from "./tile-images/number-six.png";
+import TileNumberSeven from "./tile-images/number-seven.png";
+import TileNumberEight from "./tile-images/number-eight.png";
+import TileNumberNine from "./tile-images/number-nine.png";
+import TileParenthesisOpen from "./tile-images/parenthesis-open.png";
+import TileParenthesisClose from "./tile-images/parenthesis-close.png";
 
 const boardTiles = {
   // Blank
@@ -64,7 +75,6 @@ const tiles = {
 
 export type Tile = (typeof tiles)[keyof typeof tiles];
 
-// TODO: Add number and parentheses images
 const tileImages = {
   // Blank
   [tiles.blank]: TileBlank,
@@ -87,18 +97,18 @@ const tileImages = {
   [tiles.finishSouth]: TileFinishSouth,
   [tiles.finishWest]: TileFinishWest,
   // Numbers
-  [tiles.one]: "1",
-  [tiles.two]: "2",
-  [tiles.three]: "3",
-  [tiles.four]: "4",
-  [tiles.five]: "5",
-  [tiles.six]: "6",
-  [tiles.seven]: "7",
-  [tiles.eight]: "8",
-  [tiles.nine]: "9",
+  [tiles.one]: TileNumberOne,
+  [tiles.two]: TileNumberTwo,
+  [tiles.three]: TileNumberThree,
+  [tiles.four]: TileNumberFour,
+  [tiles.five]: TileNumberFive,
+  [tiles.six]: TileNumberSix,
+  [tiles.seven]: TileNumberSeven,
+  [tiles.eight]: TileNumberEight,
+  [tiles.nine]: TileNumberNine,
   // Parentheses
-  [tiles.parenthesisOpen]: "(",
-  [tiles.parenthesisClose]: ")",
+  [tiles.parenthesisOpen]: TileParenthesisOpen,
+  [tiles.parenthesisClose]: TileParenthesisClose,
 } as const;
 
 export type TileImage = (typeof tileImages)[keyof typeof tileImages];
