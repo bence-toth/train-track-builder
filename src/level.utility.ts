@@ -189,6 +189,7 @@ const getNextTilePosition = (train: Train): Position => {
 
 type Board = BoardTile[][];
 
+// TODO: Add unit tests
 const getOriginalTrain = (board: Board): Train => {
   const numberOfRows = board.length;
   const numberOfColumns = board[0].length;
@@ -260,6 +261,7 @@ const trainRoutings: Routing[] = [
   [directions.west, tiles.southEast, directions.south],
 ];
 
+// TODO: Add unit tests
 const getNextTrain = (
   actualTrain: Train,
   nextTilePosition: Position,
@@ -280,6 +282,7 @@ const getNextTrain = (
   };
 };
 
+// TODO: Add unit tests
 const putNextTileOnBoard = (train: Train, board: Board, route: BoardTile[]) => {
   const nextTile = route[0];
   // TODO: Throw error if train runs off the board
