@@ -102,8 +102,10 @@ const compileRepeatingBlock = ({
   }
 };
 
-const compileRoute = (selectedTiles: Tile[]): BoardTile[] => {
-  const route: BoardTile[] = [];
+type Route = BoardTile[];
+
+const compileRoute = (selectedTiles: Tile[]): Route => {
+  const route: Route = [];
 
   for (
     let tileIterator = 0;
@@ -137,4 +139,181 @@ const compileRoute = (selectedTiles: Tile[]): BoardTile[] => {
   return route;
 };
 
-export { extractParenthesesBlock, compileRoute };
+const directions = {
+  north: "north",
+  east: "east",
+  south: "south",
+  west: "west",
+} as const;
+
+export type Direction = (typeof directions)[keyof typeof directions];
+
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface Train {
+  position: Position;
+  direction: Direction;
+}
+
+const getNextTilePosition = (train: Train): Position => {
+  switch (train.direction) {
+    case directions.north: {
+      return {
+        x: train.position.x,
+        y: train.position.y - 1,
+      };
+    }
+    case directions.east: {
+      return {
+        x: train.position.x + 1,
+        y: train.position.y,
+      };
+    }
+    case directions.south: {
+      return {
+        x: train.position.x,
+        y: train.position.y + 1,
+      };
+    }
+    case directions.west: {
+      return {
+        x: train.position.x - 1,
+        y: train.position.y,
+      };
+    }
+  }
+};
+
+type Board = BoardTile[][];
+
+const getOriginalTrain = (board: Board): Train => {
+  const numberOfRows = board.length;
+  const numberOfColumns = board[0].length;
+  for (let rowCounter = 0; rowCounter < numberOfRows; ++rowCounter) {
+    for (
+      let columnCounter = 0;
+      columnCounter < numberOfColumns;
+      ++columnCounter
+    ) {
+      switch (board[rowCounter][columnCounter]) {
+        case tiles.startNorth: {
+          return {
+            position: {
+              x: columnCounter,
+              y: rowCounter,
+            },
+            direction: directions.north,
+          };
+        }
+        case tiles.startEast: {
+          return {
+            position: {
+              x: columnCounter,
+              y: rowCounter,
+            },
+            direction: directions.east,
+          };
+        }
+        case tiles.startSouth: {
+          return {
+            position: {
+              x: columnCounter,
+              y: rowCounter,
+            },
+            direction: directions.south,
+          };
+        }
+        case tiles.startWest: {
+          return {
+            position: {
+              x: columnCounter,
+              y: rowCounter,
+            },
+            direction: directions.west,
+          };
+        }
+      }
+    }
+  }
+
+  throw new Error("Train start position was not found on board.");
+};
+
+const getNextTrain = (
+  actualTrain: Train,
+  nextTilePosition: Position,
+  nextTile: BoardTile
+): Train => {
+  let nextTrainDirection = null;
+  if (
+    nextTile === tiles.eastWest &&
+    (actualTrain.direction === directions.east ||
+      actualTrain.direction === directions.west)
+  ) {
+    nextTrainDirection = actualTrain.direction;
+  }
+  if (
+    nextTile === tiles.northSouth &&
+    (actualTrain.direction === directions.north ||
+      actualTrain.direction === directions.south)
+  ) {
+    nextTrainDirection = actualTrain.direction;
+  }
+  if (nextTile === tiles.northEast) {
+    if (actualTrain.direction === directions.south) {
+      nextTrainDirection = directions.east;
+    } else if (actualTrain.direction === directions.west) {
+      nextTrainDirection = directions.north;
+    }
+  }
+  if (nextTile === tiles.southEast) {
+    if (actualTrain.direction === directions.north) {
+      nextTrainDirection = directions.east;
+    } else if (actualTrain.direction === directions.west) {
+      nextTrainDirection = directions.south;
+    }
+  }
+  if (nextTile === tiles.southWest) {
+    if (actualTrain.direction === directions.north) {
+      nextTrainDirection = directions.west;
+    } else if (actualTrain.direction === directions.east) {
+      nextTrainDirection = directions.south;
+    }
+  }
+  if (nextTile === tiles.northWest) {
+    if (actualTrain.direction === directions.south) {
+      nextTrainDirection = directions.west;
+    } else if (actualTrain.direction === directions.east) {
+      nextTrainDirection = directions.north;
+    }
+  }
+  if (nextTrainDirection === null) {
+    throw new Error("Train crashed as next tile is not joined to track");
+  }
+  return {
+    position: nextTilePosition,
+    direction: nextTrainDirection,
+  };
+};
+
+const putNextTileOnBoard = (
+  train: Train | null,
+  board: Board,
+  route: BoardTile[]
+) => {
+  const nextTile = route[0];
+  const actualTrain = train ?? getOriginalTrain(board);
+  // TODO: Throw error if train runs off the board
+  const nextTilePosition = getNextTilePosition(actualTrain);
+  const newBoard = [...board];
+  newBoard[nextTilePosition.y] = [...newBoard[nextTilePosition.y]];
+  newBoard[nextTilePosition.y][nextTilePosition.x] = nextTile;
+  const newTrain = getNextTrain(actualTrain, nextTilePosition, nextTile);
+  const newRoute = route.slice(1);
+  return { newBoard, newTrain, newRoute };
+};
+
+export { extractParenthesesBlock, compileRoute, putNextTileOnBoard };

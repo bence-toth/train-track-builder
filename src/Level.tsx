@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { type BoardTile, type Tile, getTileImage } from "./tiles";
 import useLevelTiles from "./useLevelTiles";
 import TileButton from "./TileButton";
+import { putNextTileOnBoard, compileRoute } from "./level.utility";
 
 import "./Level.css";
+import { useCallback } from "react";
 
 interface Puzzle {
   board: BoardTile[][];
@@ -20,6 +23,23 @@ const Level = ({ puzzle }: LevelProps) => {
     handleSelectedTileClick,
     handleResetButtonClick,
   } = useLevelTiles({ originalTiles: puzzle.tiles });
+
+  // TODO: Move this to some custom hook
+  const [board, setBoard] = useState(puzzle.board);
+  const [train, setTrain] = useState(null);
+  const [route, setRoute] = useState(null);
+
+  // TODO: Handle errors
+  const run = useCallback(() => {
+    const { newBoard, newTrain, newRoute } = putNextTileOnBoard(
+      train,
+      board,
+      route ?? compileRoute(levelTiles.selected)
+    );
+    setBoard(newBoard);
+    setTrain(newTrain);
+    setRoute(newRoute);
+  }, [levelTiles.selected, board, route, train]);
 
   return (
     <div>
@@ -51,7 +71,7 @@ const Level = ({ puzzle }: LevelProps) => {
       </div>
       <h2>Board</h2>
       <div className="board">
-        {puzzle.board.map((boardRow, boardRowIndex) => (
+        {board.map((boardRow, boardRowIndex) => (
           <div key={boardRowIndex} className="board-row">
             {boardRow.map((boardRowTile, boardRowTileIndex) => (
               <div key={boardRowTileIndex} className="board-cell">
@@ -67,7 +87,7 @@ const Level = ({ puzzle }: LevelProps) => {
           <button onClick={handleResetButtonClick}>Reset</button>
         </div>
         <div className="control">
-          <button>Start</button>
+          <button onClick={run}>Start</button>
         </div>
       </div>
     </div>
