@@ -242,54 +242,35 @@ const getOriginalTrain = (board: Board): Train => {
   throw new Error("Train start position was not found on board.");
 };
 
+type Routing = [Direction, BoardTile, Direction];
+
+const trainRoutings: Routing[] = [
+  // [old direction, next tile, new direction]
+  [directions.north, tiles.northSouth, directions.north],
+  [directions.north, tiles.southEast, directions.east],
+  [directions.north, tiles.southWest, directions.west],
+  [directions.east, tiles.eastWest, directions.east],
+  [directions.east, tiles.northWest, directions.north],
+  [directions.east, tiles.southWest, directions.south],
+  [directions.south, tiles.northEast, directions.east],
+  [directions.south, tiles.northSouth, directions.south],
+  [directions.south, tiles.northWest, directions.west],
+  [directions.west, tiles.eastWest, directions.west],
+  [directions.west, tiles.northEast, directions.north],
+  [directions.west, tiles.southEast, directions.south],
+];
+
 const getNextTrain = (
   actualTrain: Train,
   nextTilePosition: Position,
   nextTile: BoardTile
 ): Train => {
-  let nextTrainDirection = null;
-  if (
-    nextTile === tiles.eastWest &&
-    (actualTrain.direction === directions.east ||
-      actualTrain.direction === directions.west)
-  ) {
-    nextTrainDirection = actualTrain.direction;
-  }
-  if (
-    nextTile === tiles.northSouth &&
-    (actualTrain.direction === directions.north ||
-      actualTrain.direction === directions.south)
-  ) {
-    nextTrainDirection = actualTrain.direction;
-  }
-  if (nextTile === tiles.northEast) {
-    if (actualTrain.direction === directions.south) {
-      nextTrainDirection = directions.east;
-    } else if (actualTrain.direction === directions.west) {
-      nextTrainDirection = directions.north;
-    }
-  }
-  if (nextTile === tiles.southEast) {
-    if (actualTrain.direction === directions.north) {
-      nextTrainDirection = directions.east;
-    } else if (actualTrain.direction === directions.west) {
-      nextTrainDirection = directions.south;
-    }
-  }
-  if (nextTile === tiles.southWest) {
-    if (actualTrain.direction === directions.north) {
-      nextTrainDirection = directions.west;
-    } else if (actualTrain.direction === directions.east) {
-      nextTrainDirection = directions.south;
-    }
-  }
-  if (nextTile === tiles.northWest) {
-    if (actualTrain.direction === directions.south) {
-      nextTrainDirection = directions.west;
-    } else if (actualTrain.direction === directions.east) {
-      nextTrainDirection = directions.north;
-    }
-  }
+  const nextTrainDirection =
+    trainRoutings.find(
+      (trainRouting) =>
+        actualTrain.direction === trainRouting[0] &&
+        nextTile === trainRouting[1]
+    )?.[2] ?? null;
   if (nextTrainDirection === null) {
     throw new Error("Train crashed as next tile is not joined to track");
   }
@@ -299,21 +280,21 @@ const getNextTrain = (
   };
 };
 
-const putNextTileOnBoard = (
-  train: Train | null,
-  board: Board,
-  route: BoardTile[]
-) => {
+const putNextTileOnBoard = (train: Train, board: Board, route: BoardTile[]) => {
   const nextTile = route[0];
-  const actualTrain = train ?? getOriginalTrain(board);
   // TODO: Throw error if train runs off the board
-  const nextTilePosition = getNextTilePosition(actualTrain);
+  const nextTilePosition = getNextTilePosition(train);
   const newBoard = [...board];
   newBoard[nextTilePosition.y] = [...newBoard[nextTilePosition.y]];
   newBoard[nextTilePosition.y][nextTilePosition.x] = nextTile;
-  const newTrain = getNextTrain(actualTrain, nextTilePosition, nextTile);
+  const newTrain = getNextTrain(train, nextTilePosition, nextTile);
   const newRoute = route.slice(1);
   return { newBoard, newTrain, newRoute };
 };
 
-export { extractParenthesesBlock, compileRoute, putNextTileOnBoard };
+export {
+  extractParenthesesBlock,
+  compileRoute,
+  getOriginalTrain,
+  putNextTileOnBoard,
+};

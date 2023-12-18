@@ -2,7 +2,11 @@ import { useState } from "react";
 import { type BoardTile, type Tile, getTileImage } from "./tiles";
 import useLevelTiles from "./useLevelTiles";
 import TileButton from "./TileButton";
-import { putNextTileOnBoard, compileRoute } from "./level.utility";
+import {
+  putNextTileOnBoard,
+  compileRoute,
+  getOriginalTrain,
+} from "./level.utility";
 
 import "./Level.css";
 import { useCallback } from "react";
@@ -26,8 +30,8 @@ const Level = ({ puzzle }: LevelProps) => {
 
   // TODO: Move this to some custom hook
   const [board, setBoard] = useState(puzzle.board);
-  const [train, setTrain] = useState(null);
-  const [route, setRoute] = useState(null);
+  const [train, setTrain] = useState(getOriginalTrain(puzzle.board));
+  const [route, setRoute] = useState<BoardTile[] | null>(null);
 
   // TODO: Handle errors
   const run = useCallback(() => {
@@ -46,9 +50,8 @@ const Level = ({ puzzle }: LevelProps) => {
       <h2>Available tiles</h2>
       <div className="available-tiles">
         {levelTiles.available.map((tile, tileIndex) => (
-          <div className="tile-cell">
+          <div key={tileIndex} className="tile-cell">
             <TileButton
-              key={tileIndex}
               tile={tile}
               tileIndex={tileIndex}
               onClick={handleAvailableTileClick}
@@ -59,9 +62,8 @@ const Level = ({ puzzle }: LevelProps) => {
       <h2>Selected tiles</h2>
       <div className="selected-tiles">
         {levelTiles.selected.map((tile, tileIndex) => (
-          <div className="tile-cell">
+          <div key={tileIndex} className="tile-cell">
             <TileButton
-              key={tileIndex}
               tile={tile}
               tileIndex={tileIndex}
               onClick={handleSelectedTileClick}
