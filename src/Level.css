@@ -1,34 +1,31 @@
 .available-tiles,
 .selected-tiles {
-  height: 5rem;
-  border: 1px solid blue;
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
 }
 
 .available-tiles .tile-cell,
 .selected-tiles .tile-cell {
-  width: max-content;
   flex: 1;
-  border: 1px solid green;
   display: flex;
 }
 
 .board {
-  border: 1px solid red;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
 .board-row {
-  height: 5rem;
-  border: 1px solid blue;
-  display: flex;
+  display: inline-flex;
   justify-content: space-between;
+  gap: 1px;
 }
 
 .board-cell {
   width: max-content;
   flex: 1;
-  border: 1px solid green;
+  display: flex;
 }
 
 .board-cell > img {
